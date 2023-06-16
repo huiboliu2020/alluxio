@@ -134,6 +134,7 @@
     <netty.version>4.1.87.Final</netty.version>
     <rocksdb.version>7.0.3</rocksdb.version>
     <hadoop.version>3.3.1</hadoop.version>
+    <ufs.hadoop.version>3.3.1</ufs.hadoop.version>
     <jacoco.version>0.8.5</jacoco.version>
     <java.version>11</java.version>
     <jaxb.version>2.3.3</jaxb.version>
@@ -142,7 +143,7 @@
     <junit.version>4.13.1</junit.version>
     <jupiter.version>5.9.2</jupiter.version>
     <log4j.version>2.17.1</log4j.version>
-    <maven.version>3.8.6</maven.version>
+    <maven.version>3.6.3</maven.version>
     <metrics.version>4.1.11</metrics.version>
     <mockito.version>3.4.4</mockito.version>
     <orc.version>1.6.3</orc.version>
@@ -493,6 +494,10 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.alluxio</groupId>
+            <artifactId>Alluxio</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -544,6 +549,10 @@
           <exclusion>
             <groupId>tomcat</groupId>
             <artifactId>jasper-compiler</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.alluxio</groupId>
+            <artifactId>Alluxio</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -751,6 +760,12 @@
         <artifactId>hadoop-test</artifactId>
         <version>${hadoop.version}</version>
         <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.alluxio</groupId>
+            <artifactId>Alluxio</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.gaul</groupId>
@@ -1426,7 +1441,8 @@
     <profile>
       <id>hadoop-2</id>
       <properties>
-        <hadoop.version>2.7.3</hadoop.version>
+        <hadoop.version>2.100.67_2023040612</hadoop.version>
+        <ufs.hadoop.version>2.100.67_2023040612</ufs.hadoop.version>
       </properties>
     </profile>
 
@@ -1434,6 +1450,7 @@
       <id>hadoop-3</id>
       <properties>
         <hadoop.version>3.3.1</hadoop.version>
+        <ufs.hadoop.version>3.3.1</ufs.hadoop.version>
       </properties>
     </profile>
 
