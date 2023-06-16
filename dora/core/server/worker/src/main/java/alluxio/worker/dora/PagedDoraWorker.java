@@ -66,6 +66,7 @@ import alluxio.retry.RetryUtils;
 import alluxio.security.authentication.AuthenticatedClientUser;
 import alluxio.security.authorization.Mode;
 import alluxio.security.user.ServerUserState;
+import alluxio.underfs.CachedUnderFileSystem;
 import alluxio.underfs.UfsFileStatus;
 import alluxio.underfs.UfsInputStreamCache;
 import alluxio.underfs.UfsManager;
@@ -183,9 +184,7 @@ public class PagedDoraWorker extends AbstractWorker implements DoraWorker {
     mUfsManager = mResourceCloser.register(new DoraUfsManager());
     mFsContext = mResourceCloser.register(fileSystemContext);
     mUfsStreamCache = new UfsInputStreamCache();
-    mUfs = UnderFileSystem.Factory.create(
-        mRootUFS,
-        UnderFileSystemConfiguration.defaults(Configuration.global()));
+    mUfs = CachedUnderFileSystem.create();
 
     mPageSize = Configuration.global().getBytes(PropertyKey.WORKER_PAGE_STORE_PAGE_SIZE);
     mBlockMasterClientPool = blockMasterClientPool;
@@ -405,17 +404,13 @@ public class PagedDoraWorker extends AbstractWorker implements DoraWorker {
    * @return a FileInfo
    */
   public alluxio.grpc.FileInfo buildFileInfoFromUfsStatus(UfsStatus status, String ufsFullPath) {
-    String filename = new AlluxioURI(ufsFullPath).getName();
-    String relativePath = CommonUtils.stripPrefixIfPresent(ufsFullPath, mRootUFS);
-    if (!relativePath.startsWith(AlluxioURI.SEPARATOR)) {
-      relativePath = AlluxioURI.SEPARATOR + relativePath;
-    }
-
+    AlluxioURI uri = new AlluxioURI(ufsFullPath);
+    String filename = uri.getName();
     alluxio.grpc.FileInfo.Builder infoBuilder = alluxio.grpc.FileInfo.newBuilder()
         .setUfsType(mUfs.getUnderFSType())
         .setFileId(ufsFullPath.hashCode())
         .setName(filename)
-        .setPath(relativePath)
+        .setPath(uri.getPath())
         .setUfsPath(ufsFullPath)
         .setMode(status.getMode())
         .setFolder(status.isDirectory())
