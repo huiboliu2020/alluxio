@@ -534,6 +534,10 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.alluxio</groupId>
+            <artifactId>Alluxio</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -580,6 +584,10 @@
           <exclusion>
             <groupId>tomcat</groupId>
             <artifactId>jasper-compiler</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.alluxio</groupId>
+            <artifactId>Alluxio</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -782,6 +790,12 @@
         <artifactId>hadoop-test</artifactId>
         <version>${hadoop.version}</version>
         <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.alluxio</groupId>
+            <artifactId>Alluxio</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.gaul</groupId>
@@ -1595,7 +1609,7 @@
     <profile>
       <id>hadoop-2</id>
       <properties>
-        <hadoop.version>2.7.3</hadoop.version>
+        <hadoop.version>2.100.67_2023040612</hadoop.version>
       </properties>
     </profile>
 
